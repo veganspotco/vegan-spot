@@ -12,4 +12,12 @@ export class User {
         const result = await pool.query(query, [limit, offset]);
         return result.rows;
     }
+    static async findById(email) { 
+        const query = `
+            SELECT * FROM users 
+            WHERE email = $1 AND is_active = true
+            `;
+        const result = await pool.query(query, [email]);
+        return result.rows[0];
+    }
 }
