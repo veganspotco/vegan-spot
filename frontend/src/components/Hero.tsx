@@ -32,7 +32,7 @@ const Hero = () => {
               Vegetarianos y Veganos
             </span>
           </h1>
-          <p className="mb-8 text-lg text-muted-foreground md:text-xl">
+          <p className="mb-8 text-lg text-muted-foreground md:text-xl ">
             Encuentra restaurantes, menús saludables y opciones deliciosas en Buga y Tuluá
           </p>
 
