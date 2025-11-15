@@ -1,31 +1,52 @@
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../components/context/authContext";
 import { useState } from "react";
 import LoginModal from "./LoginModal";
 import logo from "@/assets/logo.jpg";
 
 const Header = () => {
-  const { isAuthenticated, user, logout } = useAuth();
+  const { isAuthenticated, user, logout, login } = useAuth(); // ✅ Agregamos 'login'
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogin = async (email: string, password: string) => {
-    // Aquí va tu lógica de login
-    console.log('Login con:', email, password);
+    try {
+      console.log('Login con:', email, password);
 
-    // Simular login exitoso
-    const mockUser = {
-      id: '1',
-      email: email,
-      name: email.split('@')[0]
-    };
+      // Simulamos un retraso de red
+      await new Promise(resolve => setTimeout(resolve, 1500));
 
-    // Cerrar modal después del login exitoso
-    setIsLoginModalOpen(false);
+      // VALIDACIÓN DE CREDENCIALES
+      if (email === 'admin@veganspot.com' && password === 'admin123') {
+        const mockUser = {
+          id: '1',
+          email: email,
+          name: email.split('@')[0]
+        };
+
+        const mockToken = 'jwt-token-' + Date.now();
+
+        // ✅ Autenticar usando el contexto
+        login(mockToken, mockUser);
+
+        // Cerrar modal después del login exitoso
+        setIsLoginModalOpen(false);
+
+        // ✅ Redirigir al dashboard
+        navigate('/dashboard');
+      } else {
+        throw new Error('Credenciales incorrectas. Usa: admin@veganspot.com / admin123');
+      }
+    } catch (err) {
+      // El error será manejado por el LoginModal
+      throw err;
+    }
   };
 
   const handleLogout = () => {
     logout();
+    navigate('/'); // ✅ Redirigir a la página principal después del logout
   };
 
   return (
@@ -63,6 +84,15 @@ const Header = () => {
             >
               Sobre Nosotros
             </Link>
+            {/* ✅ Agregar link al dashboard si está autenticado */}
+            {isAuthenticated && (
+              <Link
+                to="/dashboard"
+                className="text-sm font-medium text-foreground hover:text-primary transition-colors"
+              >
+                Dashboard
+              </Link>
+            )}
           </nav>
 
           {/* Botones de usuario */}
