@@ -1,0 +1,32 @@
+### Health Check
+GET http://localhost:3000/health
+
+### Obtener todos los establecimientos (debería estar vacío inicialmente)
+GET http://localhost:3000/api/establishments
+
+### Crear un establecimiento de prueba
+POST http://localhost:3000/api/establishments
+Content-Type: application/json
+
+{
+  "name": "Vegan Restaurant",
+  "description": "Un restaurante vegano con ingredientes orgánicos",
+  "address": "Calle Principal 123, buga",
+  "latitude": 40.7140,
+  "longitude": -74.0100,
+  "phone": "+1234567098",
+  "email": "info@veganrestaurant.com",
+  "website": "https://veganrestauran.com",
+  "type": "vegan",
+  "price_range": "medium",
+  "opening_hours": {
+    "monday": { "open": "09:00", "close": "22:00" },
+    "tuesday": { "open": "09:00", "close": "22:00" },
+    "wednesday": { "open": "09:00", "close": "22:00" },
+    "thursday": { "open": "09:00", "close": "22:00" },
+    "friday": { "open": "09:00", "close": "23:00" },
+    "saturday": { "open": "10:00", "close": "23:00" },
+    "sunday": { "open": "10:00", "close": "21:00" }
+  },
+  "created_by": "48bb6b58-45a5-4c62-a9d8-34aedbaf1e47"
+}

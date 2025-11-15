@@ -1,0 +1,77 @@
+# ========================================
+# Node.js & Monorepo general
+# ========================================
+**/node_modules/
+**/npm-debug.log*
+**/yarn-debug.log*
+**/yarn-error.log*
+**/package-lock.json
+**/pnpm-lock.yaml
+
+# ========================================
+# Entornos (variables sensibles)
+# ========================================
+**/.env
+**/.env.*
+!**/.env.example   # permite subir el ejemplo si lo tienes
+
+# ========================================
+# Builds / Outputs
+# ========================================
+**/dist/
+**/build/
+**/.cache/
+**/coverage/
+**/tmp/
+**/out/
+**/.next/
+**/.vite/
+
+# ========================================
+# Microservicios
+# ========================================
+microservices/**/node_modules/
+microservices/**/dist/
+microservices/**/build/
+microservices/shared/node_modules/
+
+# ========================================
+# API Gateway
+# ========================================
+api-gateway/node_modules/
+api-gateway/dist/
+api-gateway/build/
+
+# ========================================
+# Frontend (Vite + React)
+# ========================================
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+frontend/.vite/
+
+# ========================================
+# Base de datos y despliegue
+# ========================================
+database/node_modules/
+deployment/*.env
+deployment/.docker/
+deployment/*.log
+
+# ========================================
+# Documentación
+# ========================================
+documentation/*.pdf
+documentation/*.docx
+documentation/*.tmp
+
+# ========================================
+# 🧰 IDEs / Sistema / Otros
+# ========================================
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+*.log
+logs/
