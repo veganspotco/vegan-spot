@@ -1,8 +1,11 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import FilterSidebar from "@/components/FilterSidebar";
-import RestaurantCard from "@/components/RestaurantCard";
+//import RestaurantCard from "@/components/RestaurantCard";
+import RestaurantCard from '@/components/RestaurantCard';
+import { getEstablishments, Establishment} from "@/services/apiRest";
 import Footer from "@/components/Footer";
+import { useEffect, useState } from "react";
 
 import restaurant1 from "@/assets/restaurant-1.jpg";
 import restaurant2 from "@/assets/restaurant-2.jpg";
@@ -72,7 +75,32 @@ const mockRestaurants = [
   },
 ];
 
+
+
 const Index = () => {
+  const [establishments, setEstablishments] = useState<Establishment[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadEstablishments = async () => {
+      try {
+        const response = await getEstablishments();
+        // Asumiendo que tu API devuelve { success: true, data: [...] }
+        if (response.success) {
+          setEstablishments(response.data);
+        }
+      } catch (error) {
+        console.error('Error loading establishments:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadEstablishments();
+  }, []);
+
+  if (loading) return <div>Cargando establecimientos...</div>;
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -108,8 +136,13 @@ const Index = () => {
                   </p>
                 </div>
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
-                  {mockRestaurants.map((restaurant) => (
-                    <RestaurantCard key={restaurant.id} {...restaurant} />
+                  {establishments.map((establishment) => (
+                    <RestaurantCard
+                      key={establishment.id}
+                      establishment={establishment}
+                      // Puedes añadir lógica para determinar si es featured
+                      featured={establishment.type === 'vegan'} // Ejemplo
+                    />
                   ))}
                 </div>
               </div>
