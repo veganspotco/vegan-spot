@@ -8,6 +8,7 @@ import { pool, setupDatabaseListener } from './config/database.js';
 import searchRoutes from './routes/searchRoutes.js';
 import internalRoutes from './routes/internalRoutes.js';
 import syncRoutes from './routes/syncRoutes.js';
+import establishmentRoutes from './routes/establishmentRoutes.js';
 
 dotenv.config();
 
@@ -36,6 +37,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/establishments', searchRoutes);
 app.use('/api/internal', internalRoutes);
 app.use('/api/sync', syncRoutes);
+app.use('/api/list', establishmentRoutes);
 
 // Health check
 app.get('/health', async (req, res) => {

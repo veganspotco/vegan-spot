@@ -9,16 +9,16 @@ POST http://localhost:3000/api/establishments
 Content-Type: application/json
 
 {
-  "name": "Vegan Restaurant",
-  "description": "Un restaurante vegano con ingredientes orgánicos",
-  "address": "Calle Principal 123, buga",
+  "name": "Milano Vegan Restaurant",
+  "description": "Un restaurante vegano ",
+  "address": "Calle 321, tulua",
   "latitude": 40.7140,
   "longitude": -74.0100,
-  "phone": "+1234567098",
-  "email": "info@veganrestaurant.com",
-  "website": "https://veganrestauran.com",
+  "phone": "+1234512345",
+  "email": "info@milanorestaurant.com",
+  "website": "https://milanorestauran.com",
   "type": "vegan",
-  "price_range": "medium",
+  "price_range": "low",
   "opening_hours": {
     "monday": { "open": "09:00", "close": "22:00" },
     "tuesday": { "open": "09:00", "close": "22:00" },

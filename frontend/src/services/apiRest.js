@@ -15,6 +15,7 @@ export const getEstablishments = async () => {
   }
 };
 
+//Funcion para obtener usuarios
 export const getUsers = async () => {
   try {
     const response = await fetch(`${API_BASE_URL}/api/users/`);

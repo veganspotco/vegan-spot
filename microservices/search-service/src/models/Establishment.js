@@ -317,6 +317,12 @@ export class Establishment {
     return result.rows;
   }
 
+  static async findAllEstablishments() {
+    const query = `SELECT * FROM establishments_search`;
+    const result = await pool.query(query);
+    return result.rows;
+  }
+
   static async initialSyncFromMainDatabase() {
     try {
       import('dotenv').then(dotenv => dotenv.config());
