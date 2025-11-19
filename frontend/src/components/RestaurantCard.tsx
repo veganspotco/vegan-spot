@@ -8,6 +8,7 @@ interface Establishment {
   name: string;
   description: string;
   address: string;
+  city: string;
   type: "vegan" | "vegetarian" | "mixto";
   phone?: string;
   email?: string;
@@ -63,6 +64,7 @@ const RestaurantCard = ({
   const {
     name,
     address,
+    city,
     type,
     description,
     phone,
@@ -129,6 +131,7 @@ const RestaurantCard = ({
           <div className="flex items-start gap-2 text-sm text-muted-foreground">
             <MapPin className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
             <span className="line-clamp-2">{address}</span>
+            <span className="ml-1 font-semibold">({city})</span>
           </div>
 
           {/* Horario de hoy */}

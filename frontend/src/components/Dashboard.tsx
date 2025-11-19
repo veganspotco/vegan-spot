@@ -11,7 +11,7 @@ interface User {
 interface Establishment {
     id: number;
     name: string;
-    city: 'Buga' | 'Tuluá';
+    city: string;
     address: string;
     type: 'Vegano' | 'Vegetariano';
     description: string;
@@ -29,7 +29,7 @@ interface DashboardProps {
 
 interface FormData {
     name: string;
-    city: 'Buga' | 'Tuluá';
+    city: string;
     address: string;
     type: 'Vegano' | 'Vegetariano';
     description: string;

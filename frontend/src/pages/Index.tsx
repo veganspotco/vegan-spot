@@ -132,7 +132,7 @@ const Index = () => {
               <div className="lg:col-span-3">
                 <div className="mb-4 flex items-center justify-between">
                   <p className="text-sm text-muted-foreground">
-                    Mostrando {mockRestaurants.length} restaurantes
+                    Mostrando {establishments.length} restaurantes
                   </p>
                 </div>
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">

@@ -6,7 +6,7 @@ const SEARCH_API_URL = 'http://localhost:3002'; // Para search-service
 // Función para obtener establecimientos
 export const getEstablishments = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/establishments/`);
+    const response = await fetch(`${SEARCH_API_URL}/api/list/`);
     if (!response.ok) throw new Error('Error en la petición');
     return await response.json();
   } catch (error) {

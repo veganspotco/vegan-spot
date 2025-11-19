@@ -63,3 +63,4 @@ export const updateEstablishmentSchema = Joi.object({
   opening_hours: openingHoursSchema.optional(),
   is_active: Joi.boolean().optional()
 }).min(1);
+

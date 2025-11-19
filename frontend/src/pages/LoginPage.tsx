@@ -6,7 +6,7 @@ import LoginModal from '../components/LoginModal';
 const LoginPage: React.FC = () => {
     const [error, setError] = useState<string>('');
     const { login, isAuthenticated } = useAuth();
-    const navigate = useNavigate();
+    const navigate = useNavigate(); 
 
     // Si ya está autenticado, redirigir al dashboard
     useEffect(() => {
