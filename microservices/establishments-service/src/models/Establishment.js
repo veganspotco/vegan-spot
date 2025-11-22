@@ -8,19 +8,19 @@ import pool from '../config/database.js';
 export class Establishment {
   static async create(establishmentData) {
     const {
-      name, description, address, latitude, longitude, 
+      name, description, address, city, latitude, longitude,
       phone, email, website, type, price_range, opening_hours, created_by
     } = establishmentData;
 
     const query = `
       INSERT INTO establishments 
-      (name, description, address, latitude, longitude, phone, email, website, type, price_range, opening_hours, created_by)
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+      (name, description, address, city, latitude, longitude, phone, email, website, type, price_range, opening_hours, created_by)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
       RETURNING *
     `;
 
     const values = [
-      name, description, address, latitude, longitude,
+      name, description, address, city, latitude, longitude,
       phone, email, website, type, price_range, opening_hours, created_by
     ];
 
@@ -50,7 +50,7 @@ export class Establishment {
     }
 
     values.push(id);
-    
+
     const query = `
       UPDATE establishments 
       SET ${fields.join(', ')}, updated_at = CURRENT_TIMESTAMP
@@ -80,6 +80,18 @@ export class Establishment {
       LIMIT $1 OFFSET $2
     `;
     const result = await pool.query(query, [limit, offset]);
+    return result.rows;
+  }
+
+  // Obtiene las ciudades disponibles
+  static async getAvailableCities() {
+    const query = `
+      SELECT DISTINCT city 
+      FROM establishments 
+      WHERE city IS NOT NULL AND is_active = true 
+      ORDER BY city
+    `;
+    const result = await pool.query(query);
     return result.rows;
   }
 }

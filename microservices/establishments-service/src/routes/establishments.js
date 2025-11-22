@@ -8,11 +8,14 @@ const router = express.Router();
 
 // POST /api/establishments - Historia de Usuario 1.1
 router.post(
-  '/', 
+  '/',
   validate(createEstablishmentSchema),
   auditMiddleware('create'),
   EstablishmentController.create
 );
+
+// GET /api/establishments/cities - Obtiene las ciudades disponibles
+router.get('/cities', EstablishmentController.getAvailableCities);
 
 // PUT /api/establishments/:id - Historia de Usuario 1.2
 router.put(
@@ -30,7 +33,5 @@ router.get('/', EstablishmentController.getAll);
 
 // GET /api/establishments/:id/audit - Historial de modificaciones
 router.get('/:id/audit', EstablishmentController.getAuditLog);
-
-
 
 export default router;

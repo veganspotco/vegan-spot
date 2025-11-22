@@ -11,11 +11,11 @@ export class EstablishmentController {
   static async create(req, res, next) {
     try {
       const establishment = await Establishment.create(req.body);
-      
+
       // ✅ PUBLICAR EVENTO AUTOMÁTICAMENTE - EN SEGUNDO PLANO
       eventPublisher.publishEstablishmentChange('created', establishment.id)
         .catch(error => console.error('Error publicando evento:', error));
-      
+
       res.status(201).json({
         success: true,
         message: 'Establecimiento creado exitosamente',
@@ -29,7 +29,7 @@ export class EstablishmentController {
   static async update(req, res, next) {
     try {
       const { id } = req.params;
-      
+
       const existing = await Establishment.findById(id);
       if (!existing) {
         return res.status(404).json({
@@ -39,11 +39,11 @@ export class EstablishmentController {
       }
 
       const updated = await Establishment.update(id, req.body);
-      
+
       // ✅ PUBLICAR EVENTO AUTOMÁTICAMENTE - EN SEGUNDO PLANO
       eventPublisher.publishEstablishmentChange('updated', id)
         .catch(error => console.error('Error publicando evento:', error));
-      
+
       res.json({
         success: true,
         message: 'Establecimiento actualizado exitosamente',
@@ -58,7 +58,7 @@ export class EstablishmentController {
     try {
       const { id } = req.params;
       const establishment = await Establishment.findById(id);
-      
+
       if (!establishment) {
         return res.status(404).json({
           success: false,
@@ -79,9 +79,9 @@ export class EstablishmentController {
     try {
       const { limit = 10, page = 1 } = req.query;
       const offset = (page - 1) * limit;
-      
+
       const establishments = await Establishment.findAll(parseInt(limit), offset);
-      
+
       res.json({
         success: true,
         data: establishments,
@@ -96,11 +96,25 @@ export class EstablishmentController {
     }
   }
 
+  // GET /api/establishments/cities - Obtiene las ciudades disponibles
+
+  static async getAvailableCities(req, res, next) {
+    try {
+      const cities = await Establishment.getAvailableCities();
+      res.json({
+        success: true,
+        data: cities
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
   // GET /api/establishments/:id/audit - Historial de modificaciones
   static async getAuditLog(req, res, next) {
     try {
       const { id } = req.params;
-      
+
       // Verificar que el establecimiento existe
       const establishment = await Establishment.findById(id);
       if (!establishment) {
@@ -111,7 +125,7 @@ export class EstablishmentController {
       }
 
       const auditLogs = await AuditLog.findByEstablishmentId(id);
-      
+
       res.json({
         success: true,
         data: auditLogs
