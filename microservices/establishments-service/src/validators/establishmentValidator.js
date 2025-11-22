@@ -32,37 +32,35 @@ const openingHoursSchema = Joi.object({
 }).min(1);
 
 export const createEstablishmentSchema = Joi.object({
-  name: Joi.string().min(2).max(255).required().messages({
-    'string.empty': 'El nombre es requerido',
-    'string.min': 'El nombre debe tener al menos 2 caracteres'
-  }),
-  description: Joi.string().max(1000).optional(),
+  name: Joi.string().min(2).max(255).required(),
+  description: Joi.string().max(1000).allow(null).optional(),
   address: Joi.string().min(5).max(500).required(),
   city: Joi.string().min(2).max(255).required(),
-  latitude: Joi.number().min(-90).max(90).optional(),
-  longitude: Joi.number().min(-180).max(180).optional(),
-  phone: Joi.string().pattern(/^\+?[\d\s\-\(\)]+$/).optional(),
-  email: Joi.string().email().optional(),
-  website: Joi.string().uri().optional(),
+  latitude: Joi.number().min(-90).max(90).allow(null).optional(),
+  longitude: Joi.number().min(-180).max(180).allow(null).optional(),
+  phone: Joi.string().pattern(/^\+?[\d\s\-\(\)]+$/).allow(null).optional(),
+  email: Joi.string().email().allow(null).optional(),
+  website: Joi.string().uri().allow(null).optional(),
   type: Joi.string().valid('vegetarian', 'vegan', 'vegetarian_friendly').required(),
-  price_range: Joi.string().valid('low', 'medium', 'high', 'luxury').optional(),
-  opening_hours: openingHoursSchema.optional(),
+  price_range: Joi.string().valid('low', 'medium', 'high', 'luxury').allow(null).optional(),
+  opening_hours: openingHoursSchema.allow(null).optional(),
   created_by: Joi.string().uuid().required()
 });
 
+
 export const updateEstablishmentSchema = Joi.object({
   name: Joi.string().min(2).max(255).optional(),
-  description: Joi.string().max(1000).optional(),
+  description: Joi.string().max(1000).optional() || null,
   address: Joi.string().min(5).max(500).optional(),
   city: Joi.string().min(2).max(255).optional(),
   latitude: Joi.number().min(-90).max(90).optional(),
   longitude: Joi.number().min(-180).max(180).optional(),
-  phone: Joi.string().pattern(/^\+?[\d\s\-\(\)]+$/).optional(),
-  email: Joi.string().email().optional(),
-  website: Joi.string().uri().optional(),
+  phone: Joi.string().pattern(/^\+?[\d\s\-\(\)]+$/).allow(null).optional(),
+  email: Joi.string().email().allow(null).optional(),
+  website: Joi.string().uri().allow(null).optional(),
   type: Joi.string().valid('vegetarian', 'vegan', 'vegetarian_friendly').optional(),
-  price_range: Joi.string().valid('low', 'medium', 'high', 'luxury').optional(),
-  opening_hours: openingHoursSchema.optional(),
+  price_range: Joi.string().valid('low', 'medium', 'high', 'luxury').allow(null).optional(),
+  opening_hours: openingHoursSchema.allow(null).optional(),
   is_active: Joi.boolean().optional()
 }).min(1);
 

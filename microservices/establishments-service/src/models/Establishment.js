@@ -92,6 +92,17 @@ export class Establishment {
       ORDER BY city
     `;
     const result = await pool.query(query);
-    return result.rows;
+    return result.rows.map(row => row.city);
+  }
+
+  static async delete(id) {
+    const query = `
+      UPDATE establishments 
+      SET is_active = false, updated_at = CURRENT_TIMESTAMP
+      WHERE id = $1
+      RETURNING *
+    `;
+    const result = await pool.query(query, [id]);
+    return result.rows[0];
   }
 }

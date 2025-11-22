@@ -15,6 +15,7 @@ router.post(
 );
 
 // GET /api/establishments/cities - Obtiene las ciudades disponibles
+// IMPORTANTE: Esta ruta debe ir ANTES de /:id para evitar conflictos
 router.get('/cities', EstablishmentController.getAvailableCities);
 
 // PUT /api/establishments/:id - Historia de Usuario 1.2
@@ -23,6 +24,13 @@ router.put(
   validate(updateEstablishmentSchema),
   auditMiddleware('update'),
   EstablishmentController.update
+);
+
+// DELETE /api/establishments/:id
+router.delete(
+  '/:id',
+  auditMiddleware('delete'),
+  EstablishmentController.delete
 );
 
 // GET /api/establishments/:id

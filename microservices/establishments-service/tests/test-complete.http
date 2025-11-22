@@ -18,6 +18,22 @@ Content-Type: application/json
   "created_by": "48bb6b58-45a5-4c62-a9d8-34aedbaf1e47"
 }
 
+### 2.1. Crear establecimiento
+POST http://localhost:3000/api/establishments
+Content-Type: application/json
+
+{
+    "name": "Solo campos",
+    "email": null,
+    "website": null,
+    "city": "Tulua",
+    "address": "Carrera no se donde",
+    "type": "vegan",
+    "description": "ingresando solo los campos requeridos",
+    "phone": null,
+    "created_by": "48bb6b58-45a5-4c62-a9d8-34aedbaf1e47"
+}
+
 ### 3. Obtener el establecimiento creado (cambia el ID)
 GET http://localhost:3000/api/establishments/50126426-2698-4ea6-b058-8fe979a508f1
 

@@ -134,4 +134,31 @@ export class EstablishmentController {
       next(error);
     }
   }
+
+  static async delete(req, res, next) {
+    try {
+      const { id } = req.params;
+
+      const existing = await Establishment.findById(id);
+      if (!existing) {
+        return res.status(404).json({
+          success: false,
+          message: 'Establecimiento no encontrado'
+        });
+      }
+
+      await Establishment.delete(id);
+
+      // ✅ PUBLICAR EVENTO AUTOMÁTICAMENTE
+      eventPublisher.publishEstablishmentChange('deleted', id)
+        .catch(error => console.error('Error publicando evento:', error));
+
+      res.json({
+        success: true,
+        message: 'Establecimiento eliminado exitosamente'
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
