@@ -29,7 +29,7 @@ export const establishmentService = {
         return data.data;
     },
 
-    create: async (establishment: Establishment): Promise<Establishment> => {
+    create: async (establishment: Establishment, userId: string): Promise<Establishment> => {
         const response = await fetch(API_URL, {
             method: 'POST',
             headers: {
@@ -37,7 +37,7 @@ export const establishmentService = {
             },
             body: JSON.stringify({
                 ...establishment,
-                created_by: '48bb6b58-45a5-4c62-a9d8-34aedbaf1e47' // Temporary ID until auth is fully integrated
+                created_by: userId
             }),
         });
         if (!response.ok) {

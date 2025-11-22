@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../components/context/authContext';
+import { userService } from '../services/userService';
 import { useNavigate } from 'react-router-dom';
 import LoginModal from '../components/LoginModal';
 
 const LoginPage: React.FC = () => {
     const [error, setError] = useState<string>('');
     const { login, isAuthenticated } = useAuth();
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
 
     // Si ya está autenticado, redirigir al dashboard
     useEffect(() => {
@@ -19,30 +20,17 @@ const LoginPage: React.FC = () => {
         setError('');
 
         try {
-            console.log('Intentando login con:', { email, password });
+            // Call the backend login service
+            const user = await userService.login(email, password);
 
-            // Simulamos un retraso de red
-            await new Promise(resolve => setTimeout(resolve, 1500));
+            // For now, we'll generate a mock token since the backend doesn't return one yet
+            // In a real app, the backend should return the token
+            const token = 'mock-jwt-token-' + Date.now();
 
-            if (email === 'admin@veganspot.com' && password === 'admin123') {
-                const mockUser = {
-                    id: '1',
-                    email: email,
-                    name: email.split('@')[0]
-                };
-
-                const mockToken = 'jwt-token-' + Date.now();
-
-                // Llamar al contexto de autenticación
-                login(mockToken, mockUser);
-
-                // La redirección se maneja automáticamente por el useEffect
-            } else {
-                throw new Error('Credenciales incorrectas. Usa: admin@veganspot.com / admin123');
-            }
-
-        } catch (err) {
-            throw err; // Re-lanzar el error para que LoginModal lo maneje
+            login(token, user);
+        } catch (err: any) {
+            // Re-throw with a user-friendly message if possible
+            throw new Error(err.message || 'Error al iniciar sesión');
         }
     };
 

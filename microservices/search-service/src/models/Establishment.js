@@ -50,17 +50,17 @@ export class Establishment {
 
   static async syncFromMainService(establishmentData) {
     // Función para extraer ciudad
-    const extractCityFromAddress = (address) => {
-      if (!address) return 'Desconocida';
-      
-      const addressLower = address.toLowerCase();
+    const extractCityFromAddress = (city) => {
+      if (!city) return 'Desconocida';
+
+      const cityLower = city.toLowerCase();
       const cities = [
-        { keywords: ['buga'], name: 'Buga' },
-        { keywords: ['tuluá', 'tulua'], name: 'Tuluá' }
+        { keywords: ['buga', 'Buga'], name: 'Buga' },
+        { keywords: ['tuluá', 'tulua', 'Tuluá', 'Tulua'], name: 'Tuluá' }
       ];
 
       for (const city of cities) {
-        if (city.keywords.some(keyword => addressLower.includes(keyword))) {
+        if (city.keywords.some(keyword => cityLower.includes(keyword))) {
           return city.name;
         }
       }
@@ -113,7 +113,7 @@ export class Establishment {
       establishmentData.name,
       establishmentData.description,
       establishmentData.address,
-      extractCityFromAddress(establishmentData.address),
+      extractCityFromAddress(establishmentData.city),
       establishmentData.type,
       mapTypeToFoodTypes(establishmentData.type),
       establishmentData.price_range,
@@ -144,7 +144,7 @@ export class Establishment {
       ORDER BY rating DESC, name ASC
       LIMIT $2 OFFSET $3
     `;
-    
+
     const result = await pool.query(query, [`%${city}%`, limit, offset]);
     return result.rows;
   }
@@ -154,7 +154,7 @@ export class Establishment {
       SELECT COUNT(*) FROM establishments_search 
       WHERE (city ILIKE $1 OR city IS NULL) AND is_active = true
     `;
-    
+
     const result = await pool.query(query, [`%${city}%`]);
     return parseInt(result.rows[0].count);
   }
@@ -164,7 +164,7 @@ export class Establishment {
       SELECT * FROM establishments_search 
       WHERE is_active = true
     `;
-    
+
     const values = [];
     let paramCount = 1;
     const conditions = [];
@@ -312,7 +312,7 @@ export class Establishment {
       ORDER BY distance
       LIMIT $4
     `;
-    
+
     const result = await pool.query(query, [lat, lng, radiusKm, limit]);
     return result.rows;
   }

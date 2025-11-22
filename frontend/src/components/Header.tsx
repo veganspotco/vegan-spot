@@ -4,56 +4,54 @@ import { useAuth } from "../components/context/authContext";
 import { useState } from "react";
 import LoginModal from "./LoginModal";
 import logo from "@/assets/logo.jpg";
+import { userService } from "../services/userService";
 
 const Header = () => {
-  const { isAuthenticated, user, logout, login } = useAuth(); // ✅ Agregamos 'login'
+  const { isAuthenticated, user, logout, login } = useAuth();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (email: string, password: string) => {
     try {
-      console.log('Login con:', email, password);
+      const user = await userService.login(email, password);
 
-      // Simulamos un retraso de red
-      await new Promise(resolve => setTimeout(resolve, 1500));
-
-      // VALIDACIÓN DE CREDENCIALES
-      if (email === 'admin@veganspot.com' && password === 'admin123') {
-        const mockUser = {
-          id: '1',
-          email: email,
-          name: email.split('@')[0]
+      if (user) {
+        // Use real user data
+        const authUser = {
+          id: user.id,
+          email: user.email,
+          name: user.name
         };
 
         const mockToken = 'jwt-token-' + Date.now();
 
-        // ✅ Autenticar usando el contexto
-        login(mockToken, mockUser);
+        // Authenticate using context
+        login(mockToken, authUser);
 
-        // Cerrar modal después del login exitoso
+        // Close modal after successful login
         setIsLoginModalOpen(false);
 
-        // ✅ Redirigir al dashboard
+        // Redirect to dashboard
         navigate('/dashboard');
       } else {
-        throw new Error('Credenciales incorrectas. Usa: admin@veganspot.com / admin123');
+        throw new Error('Credenciales incorrectas');
       }
     } catch (err) {
-      // El error será manejado por el LoginModal
+      // Error will be handled by LoginModal
       throw err;
     }
   };
 
   const handleLogout = () => {
     logout();
-    navigate('/'); // ✅ Redirigir a la página principal después del logout
+    navigate('/'); // Redirect to home after logout
   };
 
   return (
     <>
       <header className="sticky top-0 z-40 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container flex h-16 items-center justify-between">
-          {/* Logo y nombre */}
+          {/* Logo and name */}
           <div className="flex items-center gap-3">
             <Link to="/" className="flex items-center gap-3">
               <img src={logo} alt="Vegan Spot Logo" className="h-10 w-10 object-contain" />
@@ -64,7 +62,7 @@ const Header = () => {
             </Link>
           </div>
 
-          {/* Navegación */}
+          {/* Navigation */}
           <nav className="hidden md:flex items-center gap-6">
             <Link
               to="/"
@@ -84,7 +82,7 @@ const Header = () => {
             >
               Sobre Nosotros
             </a>
-            {/* ✅ Agregar link al dashboard si está autenticado */}
+            {/* Add link to dashboard if authenticated */}
             {isAuthenticated && (
               <Link
                 to="/dashboard"
@@ -95,7 +93,7 @@ const Header = () => {
             )}
           </nav>
 
-          {/* Botones de usuario */}
+          {/* User buttons */}
           <div className="flex items-center gap-4">
             {isAuthenticated ? (
               <div className="flex items-center gap-4">
@@ -124,7 +122,7 @@ const Header = () => {
         </div>
       </header>
 
-      {/* Modal de Login */}
+      {/* Login Modal */}
       <LoginModal
         isOpen={isLoginModalOpen}
         onClose={() => setIsLoginModalOpen(false)}

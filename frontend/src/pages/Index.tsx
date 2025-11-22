@@ -3,7 +3,7 @@ import Hero from "@/components/Hero";
 import FilterSidebar from "@/components/FilterSidebar";
 //import RestaurantCard from "@/components/RestaurantCard";
 import RestaurantCard from '@/components/RestaurantCard';
-import { getEstablishments, Establishment} from "@/services/apiRest";
+import { getEstablishments, Establishment } from "@/services/apiRest";
 import Footer from "@/components/Footer";
 import { useEffect, useState } from "react";
 
@@ -85,7 +85,7 @@ const Index = () => {
     const loadEstablishments = async () => {
       try {
         const response = await getEstablishments();
-        // Asumiendo que tu API devuelve { success: true, data: [...] }
+
         if (response.success) {
           setEstablishments(response.data);
         }
@@ -106,7 +106,7 @@ const Index = () => {
       <Header />
       <main className="flex-1">
         <Hero />
-        
+
         {/* Restaurants Section */}
         <section id="restaurantes" className="py-16 bg-muted/20">
           <div className="container px-4">
@@ -115,7 +115,7 @@ const Index = () => {
                 Explora Nuestros Spots
               </h2>
               <p className="text-muted-foreground max-w-2xl mx-auto">
-                Descubre una selección curada de los mejores lugares para disfrutar 
+                Descubre una selección curada de los mejores lugares para disfrutar
                 comida vegetariana y vegana en Buga y Tuluá
               </p>
             </div>
@@ -158,13 +158,13 @@ const Index = () => {
                 Nuestra Misión
               </h2>
               <p className="text-lg text-muted-foreground mb-6">
-                Vegan Spot nace con el propósito de promover una alimentación saludable, 
-                apoyar a los negocios locales sostenibles y contribuir a la disminución del 
-                sufrimiento animal mediante el fomento de alternativas alimentarias libres de 
+                Vegan Spot nace con el propósito de promover una alimentación saludable,
+                apoyar a los negocios locales sostenibles y contribuir a la disminución del
+                sufrimiento animal mediante el fomento de alternativas alimentarias libres de
                 productos de origen animal.
               </p>
               <p className="text-lg text-muted-foreground">
-                Facilitamos el acceso a información sobre restaurantes vegetarianos y veganos 
+                Facilitamos el acceso a información sobre restaurantes vegetarianos y veganos
                 en Buga y Tuluá, conectando a la comunidad con opciones conscientes y deliciosas.
               </p>
             </div>

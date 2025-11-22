@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth } from './context/authContext';
 import { BarChart3, MapPin } from 'lucide-react';
 import { establishmentService, Establishment } from '../services/establishmentService';
 import DashboardHeader from './dashboard/DashboardHeader';
@@ -41,6 +42,15 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onLogout }) => {
         //hours: ''
     });
 
+    const { user: authUser } = useAuth();
+
+    // Usuario por defecto si no se proporciona
+    const currentUser = authUser || user || {
+        id: '1',
+        email: 'admin@veganspot.com',
+        name: 'Administrador'
+    };
+
     // Cargar establecimientos al iniciar
     useEffect(() => {
         loadEstablishments();
@@ -60,13 +70,6 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onLogout }) => {
         }
     };
 
-    // Usuario por defecto si no se proporciona
-    const currentUser = user || {
-        id: '1',
-        email: 'admin@veganspot.com',
-        name: 'Administrador'
-    };
-
     // Función de logout
     const handleLogout = () => {
         if (onLogout) {
@@ -74,7 +77,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onLogout }) => {
         } else {
             // Fallback si no se proporciona función de logout
             localStorage.removeItem('authToken');
-            window.location.href = '/login';
+            window.location.href = '/';
         }
     };
 
@@ -158,7 +161,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onLogout }) => {
                 await establishmentService.update(editingEstablishment.id, establishmentData);
             } else {
                 // Crear nuevo
-                await establishmentService.create(establishmentData);
+                await establishmentService.create(establishmentData, currentUser.id);
             }
 
             await loadEstablishments(); // Recargar lista
