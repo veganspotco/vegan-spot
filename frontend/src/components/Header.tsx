@@ -72,18 +72,18 @@ const Header = () => {
             >
               Inicio
             </Link>
-            <Link
-              to="/restaurants"
+            <a
+              href="#restaurantes"
               className="text-sm font-medium text-foreground hover:text-primary transition-colors"
             >
               Restaurantes
-            </Link>
-            <Link
-              to="/about"
+            </a>
+            <a
+              href="#sobre"
               className="text-sm font-medium text-foreground hover:text-primary transition-colors"
             >
               Sobre Nosotros
-            </Link>
+            </a>
             {/* ✅ Agregar link al dashboard si está autenticado */}
             {isAuthenticated && (
               <Link
