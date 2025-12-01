@@ -16,7 +16,7 @@ const Footer = () => {
               </div>
             </div>
             <p className="text-sm text-muted-foreground max-w-md">
-              Promoviendo una alimentación saludable y sostenible en el Valle del Cauca. 
+              Promoviendo una alimentación saludable y sostenible en el Valle del Cauca.
               Descubre los mejores lugares vegetarianos y veganos de tu ciudad.
             </p>
           </div>
@@ -37,7 +37,7 @@ const Footer = () => {
             <h3 className="mb-4 text-sm font-semibold text-foreground">Proyecto</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>Universidad del Valle</li>
-              <li>Ingeniería de Sistemas</li>
+              <li>Tecnologia en Desarrollo de Software</li>
               <li>Buga - Tuluá</li>
             </ul>
           </div>
@@ -45,7 +45,7 @@ const Footer = () => {
 
         <div className="mt-8 border-t border-border pt-8 text-center">
           <p className="text-sm text-muted-foreground flex items-center justify-center gap-1">
-            Hecho con <Heart className="h-4 w-4 text-destructive fill-destructive" /> para promover 
+            Hecho con <Heart className="h-4 w-4 text-destructive fill-destructive" /> para promover
             una alimentación consciente y sostenible
           </p>
           <p className="mt-2 text-xs text-muted-foreground">

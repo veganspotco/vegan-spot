@@ -15,6 +15,16 @@ interface EstablishmentListProps {
     handleDelete: (id: number) => void;
 }
 
+const images = {
+    vegan: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&h=250&fit=crop",
+    vegetarian: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=250&fit=crop",
+    mixto: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=400&h=250&fit=crop"
+}
+
+const getDefaultImage = (type: string) => {
+    return images[type as keyof typeof images] || images.vegan;
+}
+
 const EstablishmentList: React.FC<EstablishmentListProps> = ({
     filteredEstablishments,
     searchTerm,
@@ -100,7 +110,7 @@ const EstablishmentList: React.FC<EstablishmentListProps> = ({
                         <div key={establishment.id} className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg transition-all">
                             <div className="relative">
                                 <img
-                                    src={establishment.image || 'https://via.placeholder.com/400x300?text=No+Image'}
+                                    src={establishment.image || getDefaultImage(establishment.type!)}
                                     alt={establishment.name}
                                     className="w-full h-48 object-cover"
                                 />
