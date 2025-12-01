@@ -27,11 +27,31 @@ export const getUsers = async () => {
   }
 };
 
-// Función para buscar
+// Función para buscar (Deprecated or needs update, but keeping for compatibility if used elsewhere)
 export const searchEstablishments = async (query) => {
   try {
-    const response = await fetch(`${SEARCH_API_URL}/api/search?q=${encodeURIComponent(query)}`);
+    // Mapping to searchWithFilters since /api/search doesn't exist
+    const response = await fetch(`${SEARCH_API_URL}/api/establishments/search/filters?searchText=${encodeURIComponent(query)}`);
     if (!response.ok) throw new Error('Error en la búsqueda');
+    return await response.json();
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+};
+
+// Función para buscar con filtros
+export const getEstablishmentsWithFilters = async (filters) => {
+  try {
+    const queryParams = new URLSearchParams();
+
+    if (filters.city && filters.city !== 'todas') queryParams.append('city', filters.city);
+    if (filters.foodTypes && filters.foodTypes.length > 0) queryParams.append('foodTypes', filters.foodTypes.join(','));
+    if (filters.type && filters.type.length > 0) queryParams.append('type', filters.type.join(',')); // dish types
+    if (filters.searchText) queryParams.append('searchText', filters.searchText);
+
+    const response = await fetch(`${SEARCH_API_URL}/api/establishments/search/filters?${queryParams.toString()}`);
+    if (!response.ok) throw new Error('Error en la búsqueda con filtros');
     return await response.json();
   } catch (error) {
     console.error('Error:', error);

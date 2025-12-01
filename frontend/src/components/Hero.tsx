@@ -10,14 +10,22 @@ import {
 } from "@/components/ui/select";
 import heroBanner from "@/assets/hero-banner.jpg";
 
-const Hero = () => {
+interface HeroProps {
+  searchTerm: string;
+  setSearchTerm: (term: string) => void;
+  selectedCity: string;
+  setSelectedCity: (city: string) => void;
+  onSearch: () => void;
+}
+
+const Hero = ({ searchTerm, setSearchTerm, selectedCity, setSelectedCity, onSearch }: HeroProps) => {
   return (
     <section className="relative w-full overflow-hidden">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
-        <img 
-          src={heroBanner} 
-          alt="Deliciosa comida vegetariana y vegana" 
+        <img
+          src={heroBanner}
+          alt="Deliciosa comida vegetariana y vegana"
           className="h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/70 to-background" />
@@ -45,10 +53,13 @@ const Hero = () => {
                   <Input
                     placeholder="Buscar restaurantes, platos..."
                     className="pl-10 border-border"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && onSearch()}
                   />
                 </div>
               </div>
-              <Select defaultValue="todas">
+              <Select value={selectedCity} onValueChange={setSelectedCity}>
                 <SelectTrigger className="w-full md:w-[180px] border-border">
                   <MapPin className="h-4 w-4 mr-2" />
                   <SelectValue placeholder="Ciudad" />
@@ -59,7 +70,10 @@ const Hero = () => {
                   <SelectItem value="tulua">Tuluá</SelectItem>
                 </SelectContent>
               </Select>
-              <Button className="w-full md:w-auto bg-primary hover:bg-primary/90">
+              <Button
+                className="w-full md:w-auto bg-primary hover:bg-primary/90"
+                onClick={onSearch}
+              >
                 Buscar
               </Button>
             </div>

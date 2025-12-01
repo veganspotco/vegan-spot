@@ -3,7 +3,7 @@ import Hero from "@/components/Hero";
 import FilterSidebar from "@/components/FilterSidebar";
 //import RestaurantCard from "@/components/RestaurantCard";
 import RestaurantCard from '@/components/RestaurantCard';
-import { getEstablishments, Establishment } from "@/services/apiRest";
+import { getEstablishments, Establishment, getEstablishmentsWithFilters } from "@/services/apiRest";
 import Footer from "@/components/Footer";
 import { useEffect, useState } from "react";
 
@@ -81,23 +81,47 @@ const Index = () => {
   const [establishments, setEstablishments] = useState<Establishment[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const loadEstablishments = async () => {
-      try {
-        const response = await getEstablishments();
+  // Search State
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCity, setSelectedCity] = useState("todas");
+  const [selectedFoodTypes, setSelectedFoodTypes] = useState<string[]>([]);
+  const [selectedDishTypes, setSelectedDishTypes] = useState<string[]>([]);
 
-        if (response.success) {
-          setEstablishments(response.data);
-        }
-      } catch (error) {
-        console.error('Error loading establishments:', error);
-      } finally {
-        setLoading(false);
+  const fetchEstablishments = async () => {
+    setLoading(true);
+    try {
+      const filters = {
+        city: selectedCity,
+        foodTypes: selectedFoodTypes,
+        type: selectedDishTypes,
+        searchText: searchTerm
+      };
+
+      const response = await getEstablishmentsWithFilters(filters);
+
+      if (response.success) {
+        setEstablishments(response.data);
       }
-    };
+    } catch (error) {
+      console.error('Error loading establishments:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    loadEstablishments();
+  // Initial load
+  useEffect(() => {
+    fetchEstablishments();
   }, []);
+
+  // Trigger search when filters change (except text search which is manual via button)
+  useEffect(() => {
+    fetchEstablishments();
+  }, [selectedCity, selectedFoodTypes, selectedDishTypes]);
+
+  const handleSearch = () => {
+    fetchEstablishments();
+  };
 
   if (loading) return <div>Cargando establecimientos...</div>;
 
@@ -105,7 +129,13 @@ const Index = () => {
     <div className="min-h-screen flex flex-col">
       <Header />
       <main className="flex-1">
-        <Hero />
+        <Hero
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          selectedCity={selectedCity}
+          setSelectedCity={setSelectedCity}
+          onSearch={handleSearch}
+        />
 
         {/* Restaurants Section */}
         <section id="restaurantes" className="py-16 bg-muted/20">
@@ -124,7 +154,14 @@ const Index = () => {
               {/* Filters Sidebar */}
               <div className="lg:col-span-1">
                 <div className="sticky top-20">
-                  <FilterSidebar />
+                  <FilterSidebar
+                    selectedFoodTypes={selectedFoodTypes}
+                    setSelectedFoodTypes={setSelectedFoodTypes}
+                    selectedCity={selectedCity}
+                    setSelectedCity={setSelectedCity}
+                    selectedDishTypes={selectedDishTypes}
+                    setSelectedDishTypes={setSelectedDishTypes}
+                  />
                 </div>
               </div>
 
