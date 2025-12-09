@@ -44,7 +44,9 @@ export const createEstablishmentSchema = Joi.object({
   type: Joi.string().valid('vegetarian', 'vegan', 'vegetarian_friendly').required(),
   price_range: Joi.string().valid('low', 'medium', 'high', 'luxury').allow(null).optional(),
   opening_hours: openingHoursSchema.allow(null).optional(),
-  created_by: Joi.string().uuid().required()
+  created_by: Joi.string().uuid().required(),
+  menu: Joi.array().items(Joi.object()).optional(),
+  images: Joi.array().items(Joi.string().uri()).optional()
 });
 
 
@@ -61,6 +63,8 @@ export const updateEstablishmentSchema = Joi.object({
   type: Joi.string().valid('vegetarian', 'vegan', 'vegetarian_friendly').optional(),
   price_range: Joi.string().valid('low', 'medium', 'high', 'luxury').allow(null).optional(),
   opening_hours: openingHoursSchema.allow(null).optional(),
-  is_active: Joi.boolean().optional()
+  is_active: Joi.boolean().optional(),
+  menu: Joi.array().items(Joi.object()).optional(),
+  images: Joi.array().items(Joi.string().uri()).optional()
 }).min(1);
 

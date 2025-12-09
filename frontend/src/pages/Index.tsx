@@ -152,6 +152,7 @@ const Index = () => {
 
             <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
               {/* Filters Sidebar */}
+              {/*
               <div className="lg:col-span-1">
                 <div className="sticky top-20">
                   <FilterSidebar
@@ -164,6 +165,8 @@ const Index = () => {
                   />
                 </div>
               </div>
+              */}
+
 
               {/* Restaurant Grid */}
               <div className="lg:col-span-3">

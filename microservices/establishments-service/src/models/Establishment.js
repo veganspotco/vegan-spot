@@ -9,19 +9,21 @@ export class Establishment {
   static async create(establishmentData) {
     const {
       name, description, address, city, latitude, longitude,
-      phone, email, website, type, price_range, opening_hours, created_by
+      phone, email, website, type, price_range, opening_hours, created_by,
+      menu, images
     } = establishmentData;
 
     const query = `
       INSERT INTO establishments 
-      (name, description, address, city, latitude, longitude, phone, email, website, type, price_range, opening_hours, created_by)
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+      (name, description, address, city, latitude, longitude, phone, email, website, type, price_range, opening_hours, created_by, menu, images)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
       RETURNING *
     `;
 
     const values = [
       name, description, address, city, latitude, longitude,
-      phone, email, website, type, price_range, opening_hours, created_by
+      phone, email, website, type, price_range, opening_hours, created_by,
+      JSON.stringify(menu || []), images || []
     ];
 
     try {

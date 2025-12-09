@@ -16,7 +16,7 @@ describe('Establecimientos API', () => {
         description: 'Un restaurante vegetariano de prueba',
         address: 'Calle Test 123',
         type: 'vegetarian',
-        created_by: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11'
+        created_by: '22cfa100-d827-4d66-87af-01925b7ebdb5'
       };
 
       const response = await request(app)
@@ -26,7 +26,7 @@ describe('Establecimientos API', () => {
 
       expect(response.body.success).toBe(true);
       expect(response.body.data.name).toBe(establishmentData.name);
-      
+
       testEstablishmentId = response.body.data.id;
     });
 
