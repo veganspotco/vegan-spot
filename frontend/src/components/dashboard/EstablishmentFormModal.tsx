@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, Upload, Camera, Save } from 'lucide-react';
+import { X, Upload, Camera, Save, Plus, Trash2 } from 'lucide-react';
 import { Establishment } from '../../services/establishmentService';
 import { EstablishmentFormState } from './types';
 
@@ -137,18 +137,77 @@ const EstablishmentFormModal: React.FC<EstablishmentFormModalProps> = ({
                             />
                         </div>
 
-                        <div>
+                        <div className="md:col-span-2">
                             <label className="block text-sm font-medium text-gray-700 mb-2">
                                 Horario de Atención
                             </label>
-                            <input
-                                disabled
-                                type="text"
-                                //value={formData.hours}
-                                //={(e) => setFormData({ ...formData, hours: e.target.value })}
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                                placeholder="8:00 AM - 8:00 PM"
-                            />
+                            <div className="space-y-2 border rounded-lg p-4 bg-gray-50 max-h-60 overflow-y-auto">
+                                {[
+                                    { key: 'monday', label: 'Lunes' },
+                                    { key: 'tuesday', label: 'Martes' },
+                                    { key: 'wednesday', label: 'Miércoles' },
+                                    { key: 'thursday', label: 'Jueves' },
+                                    { key: 'friday', label: 'Viernes' },
+                                    { key: 'saturday', label: 'Sábado' },
+                                    { key: 'sunday', label: 'Domingo' }
+                                ].map((day) => {
+                                    const isOpen = !!formData.opening_hours?.[day.key];
+                                    return (
+                                        <div key={day.key} className="flex items-center gap-4">
+                                            <div className="w-24">
+                                                <label className="inline-flex items-center">
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={isOpen}
+                                                        onChange={(e) => {
+                                                            const newHours = { ...formData.opening_hours };
+                                                            if (e.target.checked) {
+                                                                newHours[day.key] = { open: '09:00', close: '18:00' };
+                                                            } else {
+                                                                delete newHours[day.key];
+                                                            }
+                                                            setFormData({ ...formData, opening_hours: newHours });
+                                                        }}
+                                                        className="rounded text-green-600 focus:ring-green-500 h-4 w-4"
+                                                    />
+                                                    <span className="ml-2 text-sm text-gray-700">{day.label}</span>
+                                                </label>
+                                            </div>
+                                            {isOpen ? (
+                                                <div className="flex items-center gap-2">
+                                                    <input
+                                                        type="time"
+                                                        value={formData.opening_hours[day.key]?.open || ''}
+                                                        onChange={(e) => {
+                                                            const newHours = { ...formData.opening_hours };
+                                                            if (newHours[day.key]) {
+                                                                newHours[day.key]!.open = e.target.value;
+                                                                setFormData({ ...formData, opening_hours: newHours });
+                                                            }
+                                                        }}
+                                                        className="px-2 py-1 border border-gray-300 rounded text-sm"
+                                                    />
+                                                    <span className="text-gray-500">-</span>
+                                                    <input
+                                                        type="time"
+                                                        value={formData.opening_hours[day.key]?.close || ''}
+                                                        onChange={(e) => {
+                                                            const newHours = { ...formData.opening_hours };
+                                                            if (newHours[day.key]) {
+                                                                newHours[day.key]!.close = e.target.value;
+                                                                setFormData({ ...formData, opening_hours: newHours });
+                                                            }
+                                                        }}
+                                                        className="px-2 py-1 border border-gray-300 rounded text-sm"
+                                                    />
+                                                </div>
+                                            ) : (
+                                                <span className="text-sm text-gray-400 italic">Cerrado</span>
+                                            )}
+                                        </div>
+                                    );
+                                })}
+                            </div>
                         </div>
 
                         <div>
@@ -179,62 +238,141 @@ const EstablishmentFormModal: React.FC<EstablishmentFormModalProps> = ({
 
                     </div>
 
+                    {/* IMAGES SECTION */}
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Imagen del Establecimiento
+                            Imágenes (URLs)
                         </label>
                         <div className="space-y-3">
-                            <div className="flex items-center gap-3">
-                                <label className="flex-1 cursor-pointer">
-                                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 hover:border-green-500 transition text-center">
-                                        <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                                        <p className="text-sm text-gray-600">
-                                            <span className="text-green-600 font-medium">Subir imagen</span> o arrastra aquí
-                                        </p>
-                                        <p className="text-xs text-gray-500 mt-1">PNG, JPG hasta 5MB</p>
-                                    </div>
+                            {formData.images.map((img, index) => (
+                                <div key={index} className="flex gap-2">
                                     <input
-                                        type="file"
-                                        accept="image/*"
-                                        //onChange={handleImageUpload}
-                                        className="hidden"
-                                    />
-                                </label>
-                            </div>
-
-                            <div className="relative">
-                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <Camera className="w-5 h-5 text-gray-400" />
-                                </div>
-                                <input
-                                    disabled
-                                    type="text"
-                                    //value={formData.image}
-                                    //onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                                    placeholder="O pega la URL de una imagen"
-                                />
-                            </div>
-
-                            {/* {formData.image && (
-                                <div className="relative">
-                                    <img
-                                        src={formData.image}
-                                        alt="Preview"
-                                        className="w-full h-48 object-cover rounded-lg border border-gray-200"
-                                        onError={(e) => {
-                                            (e.target as HTMLImageElement).src = 'https://via.placeholder.com/400x300?text=Imagen+no+disponible';
+                                        type="text"
+                                        value={img}
+                                        onChange={(e) => {
+                                            const newImages = [...formData.images];
+                                            newImages[index] = e.target.value;
+                                            setFormData({ ...formData, images: newImages });
                                         }}
+                                        className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                        placeholder="https://example.com/image.jpg"
                                     />
                                     <button
-                                        type="button"
-                                        onClick={() => setFormData({ ...formData, image: '' })}
-                                        className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition"
+                                        onClick={() => {
+                                            const newImages = formData.images.filter((_, i) => i !== index);
+                                            setFormData({ ...formData, images: newImages });
+                                        }}
+                                        className="p-2 text-red-500 hover:bg-red-50 rounded-lg"
                                     >
-                                        <X className="w-4 h-4" />
+                                        <Trash2 className="w-5 h-5" />
                                     </button>
                                 </div>
-                            )} */}
+                            ))}
+                            <button
+                                onClick={() => setFormData({ ...formData, images: [...formData.images, ''] })}
+                                className="flex items-center gap-2 text-green-600 hover:text-green-700 font-medium"
+                            >
+                                <Plus className="w-4 h-4" /> Agregar URL de imagen
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* MENU SECTION */}
+                    <div>
+                        <div className="flex items-center justify-between mb-2">
+                            <label className="block text-sm font-medium text-gray-700">
+                                Menú
+                            </label>
+                            <button
+                                onClick={() => setFormData({
+                                    ...formData,
+                                    menu: [...formData.menu, { category: '', items: [] }]
+                                })}
+                                className="text-sm text-green-600 hover:text-green-700 font-medium flex items-center gap-1"
+                            >
+                                <Plus className="w-4 h-4" /> Nueva Categoría
+                            </button>
+                        </div>
+
+                        <div className="space-y-4">
+                            {formData.menu.map((category, catIndex) => (
+                                <div key={catIndex} className="border border-gray-200 rounded-xl p-4 bg-gray-50">
+                                    <div className="flex gap-2 mb-3">
+                                        <input
+                                            type="text"
+                                            value={category.category}
+                                            onChange={(e) => {
+                                                const newMenu = [...formData.menu];
+                                                newMenu[catIndex].category = e.target.value;
+                                                setFormData({ ...formData, menu: newMenu });
+                                            }}
+                                            className="flex-1 px-3 py-2 border border-gray-300 rounded-lg font-medium"
+                                            placeholder="Nombre de Categoría (ej. Entradas)"
+                                        />
+                                        <button
+                                            onClick={() => {
+                                                const newMenu = formData.menu.filter((_, i) => i !== catIndex);
+                                                setFormData({ ...formData, menu: newMenu });
+                                            }}
+                                            className="p-2 text-red-500 hover:bg-red-50 rounded-lg"
+                                        >
+                                            <Trash2 className="w-5 h-5" />
+                                        </button>
+                                    </div>
+
+                                    <div className="space-y-2 pl-4 border-l-2 border-gray-200">
+                                        {category.items.map((item, itemIndex) => (
+                                            <div key={itemIndex} className="flex gap-2">
+                                                <input
+                                                    type="text"
+                                                    value={item.name}
+                                                    onChange={(e) => {
+                                                        const newMenu = [...formData.menu];
+                                                        newMenu[catIndex].items[itemIndex].name = e.target.value;
+                                                        setFormData({ ...formData, menu: newMenu });
+                                                    }}
+                                                    className="flex-[2] px-3 py-1.5 border border-gray-300 rounded-lg text-sm"
+                                                    placeholder="Nombre del plato"
+                                                />
+                                                <input
+                                                    type="text"
+                                                    value={item.price === 0 ? '' : item.price}
+                                                    onChange={(e) => {
+                                                        const val = e.target.value;
+                                                        if (val === '' || /^\d+$/.test(val)) {
+                                                            const newMenu = [...formData.menu];
+                                                            newMenu[catIndex].items[itemIndex].price = val === '' ? 0 : Number(val);
+                                                            setFormData({ ...formData, menu: newMenu });
+                                                        }
+                                                    }}
+                                                    className="flex-1 px-3 py-1.5 border border-gray-300 rounded-lg text-sm"
+                                                    placeholder="Precio"
+                                                />
+                                                <button
+                                                    onClick={() => {
+                                                        const newMenu = [...formData.menu];
+                                                        newMenu[catIndex].items = newMenu[catIndex].items.filter((_, i) => i !== itemIndex);
+                                                        setFormData({ ...formData, menu: newMenu });
+                                                    }}
+                                                    className="p-1.5 text-red-400 hover:text-red-500"
+                                                >
+                                                    <Trash2 className="w-4 h-4" />
+                                                </button>
+                                            </div>
+                                        ))}
+                                        <button
+                                            onClick={() => {
+                                                const newMenu = [...formData.menu];
+                                                newMenu[catIndex].items.push({ name: '', price: 0 });
+                                                setFormData({ ...formData, menu: newMenu });
+                                            }}
+                                            className="text-sm text-gray-500 hover:text-green-600 flex items-center gap-1 mt-2"
+                                        >
+                                            <Plus className="w-3 h-3" /> Agregar Plato
+                                        </button>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>

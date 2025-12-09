@@ -39,7 +39,10 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onLogout }) => {
         //ingredients: '',
         //image: '',
         phone: '',
-        //hours: ''
+        //hours: '',
+        menu: [],
+        images: [],
+        opening_hours: {}
     });
 
     const { user: authUser } = useAuth();
@@ -94,8 +97,11 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onLogout }) => {
             description: '',
             //ingredients: '',
             //image: '',
-            phone: ''
-            //hours: ''
+            phone: '',
+            //hours: '',
+            menu: [],
+            images: [],
+            opening_hours: {}
         });
         setShowModal(true);
     };
@@ -113,7 +119,10 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onLogout }) => {
             //ingredients: establishment.ingredients ? establishment.ingredients.join(', ') : '',
             //image: establishment.image || '',
             phone: establishment.phone || '',
-            //hours: establishment.opening_hours || ''
+            //hours: establishment.opening_hours || '',
+            menu: establishment.menu || [],
+            images: establishment.images || [],
+            opening_hours: establishment.opening_hours || {}
         });
         setShowModal(true);
     };
@@ -150,7 +159,10 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onLogout }) => {
                 //ingredients: ingredientsArray,
                 //image: formData.image,
                 phone: formData.phone || null,
-                //opening_hours: formData.hours
+                //opening_hours: formData.hours,
+                menu: formData.menu,
+                images: formData.images.filter(img => img.trim() !== ''),
+                opening_hours: Object.keys(formData.opening_hours).length > 0 ? formData.opening_hours : null
             };
 
             // Log de datos para depuración

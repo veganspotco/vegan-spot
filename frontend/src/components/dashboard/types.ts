@@ -16,5 +16,8 @@ export interface EstablishmentFormState {
     //image: string;
     phone: string;
     //hours: string;
-    hours?: string; // Made optional to match usage in some contexts if needed, but keeping consistent with previous definition
+    //hours?: string;
+    opening_hours: { [key: string]: { open: string; close: string } | undefined };
+    menu: { category: string; items: { name: string; price: number }[] }[];
+    images: string[];
 }

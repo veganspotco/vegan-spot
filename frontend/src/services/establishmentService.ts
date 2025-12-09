@@ -13,12 +13,14 @@ export interface Establishment {
     phone?: string | null;
     email?: string | null;
     website?: string | null;
-    opening_hours?: string | null;
+    opening_hours?: { [key: string]: { open: string; close: string } } | null;
     is_active?: boolean;
     created_at?: string;
     // Frontend specific fields (not in DB yet)
     ingredients?: string[];
-    image?: string | null;
+    //image?: string | null;
+    menu?: { category: string; items: { name: string; price: number }[] }[];
+    images?: string[];
 }
 
 export const establishmentService = {

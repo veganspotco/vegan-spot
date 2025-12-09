@@ -42,7 +42,14 @@ export class Establishment {
     Object.keys(establishmentData).forEach(key => {
       if (establishmentData[key] !== undefined) {
         fields.push(`${key} = $${paramCount}`);
-        values.push(establishmentData[key]);
+
+        let value = establishmentData[key];
+        // Handle JSONB fields explicitly
+        if (key === 'menu') {
+          value = JSON.stringify(value);
+        }
+
+        values.push(value);
         paramCount++;
       }
     });
