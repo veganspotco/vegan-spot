@@ -9,6 +9,7 @@ export class Establishment {
   static async create(establishmentData) {
     const {
       name, description, address, city, latitude, longitude,
+<<<<<<< HEAD
       phone, email, website, type, price_range, opening_hours, created_by,
       menu, images
     } = establishmentData;
@@ -17,13 +18,27 @@ export class Establishment {
       INSERT INTO establishments 
       (name, description, address, city, latitude, longitude, phone, email, website, type, price_range, opening_hours, created_by, menu, images)
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
+=======
+      phone, email, website, type, price_range, opening_hours, created_by
+    } = establishmentData;
+
+    // Solo insertamos columnas que existen en la tabla (menu/images no existen en el backup actual)
+    const query = `
+      INSERT INTO establishments 
+      (name, description, address, city, latitude, longitude, phone, email, website, type, price_range, opening_hours, created_by)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+>>>>>>> 446188e3 (vea esto coje)
       RETURNING *
     `;
 
     const values = [
       name, description, address, city, latitude, longitude,
+<<<<<<< HEAD
       phone, email, website, type, price_range, opening_hours, created_by,
       JSON.stringify(menu || []), images || []
+=======
+      phone, email, website, type, price_range, opening_hours, created_by
+>>>>>>> 446188e3 (vea esto coje)
     ];
 
     try {
@@ -39,6 +54,7 @@ export class Establishment {
     const values = [];
     let paramCount = 1;
 
+<<<<<<< HEAD
     Object.keys(establishmentData).forEach(key => {
       if (establishmentData[key] !== undefined) {
         fields.push(`${key} = $${paramCount}`);
@@ -50,6 +66,30 @@ export class Establishment {
         }
 
         values.push(value);
+=======
+    // Solo permitir columnas que existen en la tabla
+    const allowedKeys = new Set([
+      'name',
+      'description',
+      'address',
+      'city',
+      'latitude',
+      'longitude',
+      'phone',
+      'email',
+      'website',
+      'type',
+      'price_range',
+      'opening_hours',
+      'is_active'
+    ]);
+
+    Object.keys(establishmentData).forEach(key => {
+      if (!allowedKeys.has(key)) return; // ignorar campos inexistentes como menu/images
+      if (establishmentData[key] !== undefined) {
+        fields.push(`${key} = $${paramCount}`);
+        values.push(establishmentData[key]);
+>>>>>>> 446188e3 (vea esto coje)
         paramCount++;
       }
     });
@@ -114,4 +154,8 @@ export class Establishment {
     const result = await pool.query(query, [id]);
     return result.rows[0];
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 446188e3 (vea esto coje)

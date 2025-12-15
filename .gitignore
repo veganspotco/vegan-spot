@@ -57,6 +57,10 @@ database/node_modules/
 deployment/*.env
 deployment/.docker/
 deployment/*.log
+*.backup
+tmp*.sql
+pg17/
+tmp.backup
 
 # ========================================
 # Documentación

@@ -73,6 +73,34 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onLogout }) => {
         }
     };
 
+<<<<<<< HEAD
+=======
+    // Intenta geocodificar usando ciudad + direcciÃ³n (Nominatim)
+    const geocodeAddress = async (address: string, city: string) => {
+        try {
+            const query = `${address}, ${city}, Colombia`;
+            const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`;
+            const resp = await fetch(url, {
+                headers: {
+                    'Accept-Language': 'es',
+                    'User-Agent': 'vegan-spot-app/1.0'
+                }
+            });
+            if (!resp.ok) return null;
+            const data = await resp.json();
+            if (Array.isArray(data) && data.length > 0) {
+                return {
+                    latitude: parseFloat(data[0].lat),
+                    longitude: parseFloat(data[0].lon)
+                };
+            }
+        } catch (error) {
+            console.warn('Geocoding failed:', error);
+        }
+        return null;
+    };
+
+>>>>>>> 446188e3 (vea esto coje)
     // Función de logout
     const handleLogout = () => {
         if (onLogout) {
@@ -148,6 +176,12 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onLogout }) => {
         }
 
         try {
+<<<<<<< HEAD
+=======
+            // Intentar geocodificar con ciudad + direcciÃ³n
+            const geocoded = await geocodeAddress(formData.address, formData.city);
+
+>>>>>>> 446188e3 (vea esto coje)
             const establishmentData: Establishment = {
                 name: formData.name,
                 email: formData.email || null,
@@ -156,6 +190,11 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onLogout }) => {
                 address: formData.address,
                 type: formData.type,
                 description: formData.description,
+<<<<<<< HEAD
+=======
+                latitude: geocoded?.latitude ?? null,
+                longitude: geocoded?.longitude ?? null,
+>>>>>>> 446188e3 (vea esto coje)
                 //ingredients: ingredientsArray,
                 //image: formData.image,
                 phone: formData.phone || null,
@@ -298,4 +337,8 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onLogout }) => {
     );
 };
 
+<<<<<<< HEAD
 export default Dashboard;
+=======
+export default Dashboard;
+>>>>>>> 446188e3 (vea esto coje)

@@ -329,7 +329,11 @@ export class Establishment {
 
       const mainPool = new Pool({
         host: process.env.DB_HOST || 'localhost',
+<<<<<<< HEAD
         port: process.env.DB_PORT || 5433,
+=======
+        port: process.env.DB_PORT || 5432,
+>>>>>>> 446188e3 (vea esto coje)
         database: process.env.DB_NAME || 'establishments_db',
         user: process.env.DB_USER || 'postgres',
         password: process.env.DB_PASSWORD || 'password',
@@ -367,4 +371,8 @@ export class Establishment {
       throw error;
     }
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 446188e3 (vea esto coje)

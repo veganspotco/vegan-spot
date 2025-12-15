@@ -52,8 +52,16 @@ export class SearchController {
         limit = 10 
       } = req.query;
 
+<<<<<<< HEAD
       const filters = {
         city,
+=======
+      // Normaliza valores "todas"/vacíos para no filtrar por ciudad
+      const normalizedCity = (city && city.toLowerCase() !== 'todas') ? city : undefined;
+
+      const filters = {
+        city: normalizedCity,
+>>>>>>> 446188e3 (vea esto coje)
         foodTypes: foodTypes ? foodTypes.split(',') : undefined,
         type: type ? type.split(',') : undefined,
         minRating: minRating ? parseFloat(minRating) : undefined,
@@ -77,7 +85,11 @@ export class SearchController {
           pages: Math.ceil(total / limit)
         },
         filters: {
+<<<<<<< HEAD
           city,
+=======
+          city: normalizedCity,
+>>>>>>> 446188e3 (vea esto coje)
           foodTypes: filters.foodTypes,
           type: filters.type,
           minRating: filters.minRating,
@@ -154,4 +166,8 @@ export class SearchController {
       });
     }
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 446188e3 (vea esto coje)

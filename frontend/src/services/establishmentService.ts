@@ -9,6 +9,11 @@ export interface Establishment {
     address: string;
     city: string;
     type: 'vegan' | 'vegetarian'; // Backend types
+<<<<<<< HEAD
+=======
+    latitude?: number | null;
+    longitude?: number | null;
+>>>>>>> 446188e3 (vea esto coje)
     price_range?: string | null;
     phone?: string | null;
     email?: string | null;

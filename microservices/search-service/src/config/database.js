@@ -7,7 +7,11 @@ dotenv.config();
 // Pool para la base de datos de búsqueda
 const pool = new Pool({
   host: process.env.DB_HOST || 'localhost',
+<<<<<<< HEAD
   port: process.env.DB_PORT || 5433,
+=======
+  port: process.env.DB_PORT || 5432,
+>>>>>>> 446188e3 (vea esto coje)
   database: process.env.SEARCH_DB_NAME || 'establishments_search_db',
   user: process.env.DB_USER || 'postgres',
   password: process.env.DB_PASSWORD || 'password',
@@ -20,7 +24,11 @@ const pool = new Pool({
 const setupDatabaseListener = async () => {
   const client = new pg.Client({
     host: process.env.DB_HOST || 'localhost',
+<<<<<<< HEAD
     port: process.env.DB_PORT || 5433,
+=======
+    port: process.env.DB_PORT || 5432,
+>>>>>>> 446188e3 (vea esto coje)
     database: process.env.DB_NAME || 'establishments_db', 
     user: process.env.DB_USER || 'postgres',
     password: process.env.DB_PASSWORD || 'password',
@@ -62,4 +70,8 @@ const processEstablishmentEvent = async (event) => {
   }
 };
 
+<<<<<<< HEAD
 export { pool, setupDatabaseListener };
+=======
+export { pool, setupDatabaseListener };
+>>>>>>> 446188e3 (vea esto coje)
