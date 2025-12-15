@@ -1,0 +1,52 @@
+### 1. Health Check
+GET http://localhost:3000/health
+
+### 2. Crear establecimiento
+POST http://localhost:3000/api/establishments
+Content-Type: application/json
+
+{
+  "name": "Todo vegetariano ",
+  "description": "Comida Vegetariana deliciosa y saludable",
+  "address": "Calle Falsa 123, Ciudad Vegetariana",
+  "latitude": 40.7128,
+  "longitude": -74.0060,
+  "phone": "+1234567890",
+  "email": "hola@vegetariano.com",
+  "type": "vegetarian",
+  "price_range": "medium",
+  "created_by": "48bb6b58-45a5-4c62-a9d8-34aedbaf1e47"
+}
+
+### 2.1. Crear establecimiento
+POST http://localhost:3000/api/establishments
+Content-Type: application/json
+
+{
+    "name": "Solo campos",
+    "email": null,
+    "website": null,
+    "city": "Tulua",
+    "address": "Carrera no se donde",
+    "type": "vegan",
+    "description": "ingresando solo los campos requeridos",
+    "phone": null,
+    "created_by": "48bb6b58-45a5-4c62-a9d8-34aedbaf1e47"
+}
+
+### 3. Obtener el establecimiento creado (cambia el ID)
+GET http://localhost:3000/api/establishments/50126426-2698-4ea6-b058-8fe979a508f1
+
+### 4. Actualizar el establecimiento
+PUT http://localhost:3000/api/establishments/50126426-2698-4ea6-b058-8fe979a508f1
+Content-Type: application/json
+
+{
+  "address": "Calle Falsa 123, Ciudad tulua"
+}
+
+### 5. Ver historial de cambios
+GET http://localhost:3000/api/establishments/50126426-2698-4ea6-b058-8fe979a508f1/audit
+
+### 6. Listar todos los establecimientos
+GET http://localhost:3000/api/establishments?limit=10&page=1
